@@ -61,6 +61,7 @@ var ResizableImage = React.createClass({
 
     return (
       <Image
+        ref='img'
         style={style}
         source={source} />
     )
