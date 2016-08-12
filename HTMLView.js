@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Text,
 } from 'react-native'
-
+import ResizableImage from './helper/Image'
 const boldStyle = {fontWeight: '500'}
 const italicStyle = {fontStyle: 'italic'}
 const codeStyle = {fontFamily: 'Menlo'}
@@ -24,10 +24,16 @@ const baseStyles = StyleSheet.create({
 })
 
 class HtmlView extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       element: null,
+    }
+
+    this.htmlRenderer = new htmlToElement;
+
+    if(props.renderImage != undefined) {
+      this.htmlRenderer.renderImage = props.renderImage;
     }
   }
 
@@ -57,7 +63,7 @@ class HtmlView extends Component {
       customRenderer: this.props.renderNode,
     }
 
-    htmlToElement(value, opts, (err, element) => {
+    this.htmlRenderer.parse(value, opts, (err, element) => {
       if (err) {
         this.props.onError(err)
       }
@@ -82,6 +88,7 @@ HtmlView.propTypes = {
   onLinkPress: PropTypes.func,
   onError: PropTypes.func,
   renderNode: PropTypes.func,
+  renderImage: PropTypes.func,
 }
 
 HtmlView.defaultProps = {
@@ -89,4 +96,5 @@ HtmlView.defaultProps = {
   onError: console.error.bind(console),
 }
 
+export {ResizableImage};
 export default HtmlView
